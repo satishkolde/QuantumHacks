@@ -4,7 +4,7 @@ import user from '@/app/Modal/User'
 import { NextResponse } from 'next/server'
 
 
-export async function POST(req,{body}) {
+export async function POST(req) {
     
     try{
         const data = await req.formData()        
@@ -19,6 +19,9 @@ export async function POST(req,{body}) {
     await connectDB()
     let person = new user(temp)
     await person.save()
+    let response = NextResponse.next()
+    response.cookies.set("email",temp.email)
+    console.log(response.cookies.get("email"))
     }catch(err){
         console.log(err)
         return NextResponse.json({sucess:0})
